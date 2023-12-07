@@ -18,7 +18,15 @@ def interface_grafica():
     if not file_path:
         return
 
-    dados = pd.read_csv(file_path)
+    try:
+        dados = pd.read_csv(file_path, encoding='utf-8')
+    except UnicodeDecodeError:
+        try:
+            dados = pd.read_csv(file_path, encoding='ISO-8859-1')
+        except Exception as e:
+            Label(root, text=f"Erro ao ler o arquivo: {e}").pack()
+            return
+
     dados['Date'] = pd.to_datetime(dados['Date'], format='%d/%m/%Y')
 
     responsaveis = list(dados['Responsable'].unique())
