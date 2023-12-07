@@ -20,6 +20,7 @@ def calcular_dias_uteis(data_inicio, data_fim):
 def processar_dados(dados, responsaveis_selecionados):
     resultado = {}
     total_dias = 0
+    total_projetos = 0
     dados['Date'] = pd.to_datetime(dados['Date'], format='%d/%m/%Y')
 
     for responsavel in responsaveis_selecionados:
@@ -39,6 +40,7 @@ def processar_dados(dados, responsaveis_selecionados):
                     dias_uteis = calcular_dias_uteis(data_inicio, data_fim)
                     resultado[f"{card_name} ({data_inicio.strftime('%d/%m/%Y')} - {data_fim.strftime('%d/%m/%Y')})"] = dias_uteis
                     total_dias += dias_uteis
+                    total_projetos += 1
                 else:
                     print(f"Dados de início/fim ausentes ou incompletos para o card: {card_name}")
 
@@ -47,5 +49,7 @@ def processar_dados(dados, responsaveis_selecionados):
         media_dias = total_dias / numero_de_cards if numero_de_cards > 0 else 0
         resultado['Total de Dias Úteis'] = total_dias
         resultado['Média de Dias Úteis por Card'] = media_dias
+        resultado['Total de Projetos'] = total_projetos
 
     return resultado
+

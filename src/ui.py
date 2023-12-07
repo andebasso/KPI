@@ -48,8 +48,11 @@ def interface_grafica():
             caminho_arquivo_saida = os.path.join(os.path.dirname(file_path), nome_arquivo_saida)
 
             with open(caminho_arquivo_saida, 'w') as arquivo_saida:
-                for card, dias in resultados.items():
-                    linha = f"{card}: {dias} dias úteis\n"
+                for card, valor in resultados.items():
+                    if isinstance(valor, int):
+                        linha = f"{card}: {valor}\n"  # Para números (dias e total de projetos)
+                    else:
+                        linha = f"{card}: {valor} dias úteis\n"  # Para os cards
                     arquivo_saida.write(linha)
 
             Label(root, text=f"Resultados salvos em {caminho_arquivo_saida}").pack()
